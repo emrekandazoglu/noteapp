@@ -104,6 +104,12 @@ function popup() {
                 <input type="checkbox" id="add-date"> Tarih Ekle
             </label>
         </div>
+        <div>
+            <h3>Renk Seçimi:</h3>
+            <label><input type="radio" name="note-color" value="red" checked> Kırmızı</label>
+            <label><input type="radio" name="note-color" value="blue"> Mavi</label>
+            <label><input type="radio" name="note-color" value="green"> Yeşil</label>
+        </div>
         <div id="btn-container">
             <button id="submitBtn" onclick="createNote()">Not Ekle</button>
             <button id="closeBtn" onclick="closePopup()">Kapat</button>
@@ -112,6 +118,7 @@ function popup() {
     `;
     document.body.appendChild(popupContainer);
 }
+
 
 // Popup kapatma
 function closePopup() {
@@ -126,35 +133,44 @@ function createNote() {
     const noteText = document.getElementById("note-text").value.trim();
     const priority = document.getElementById("note-priority").value;
     const addDate = document.getElementById("add-date").checked;
+    const color = document.querySelector('input[name="note-color"]:checked').value;
 
     if (noteText && currentUser) {
         const note = {
-            id: new Date().getTime(),
+            id: new Date().getTime(), // Benzersiz ID
             text: noteText,
             priority,
             date: addDate ? new Date().toLocaleString() : null,
+            color,
         };
 
+        // Notu mevcut kullanıcının notlar listesine ekle
         currentUser.notes = currentUser.notes || [];
         currentUser.notes.push(note);
-        
-        const userIndex = users.findIndex(u => u.email === currentUser.email);
+
+        // Kullanıcıyı güncelle ve localStorage'a kaydet
+        const userIndex = users.findIndex(user => user.email === currentUser.email);
         users[userIndex] = currentUser;
         localStorage.setItem('users', JSON.stringify(users));
-        
+
+        // Popup'ı kapat ve notları güncelle
         closePopup();
         displayNotes();
+    } else {
+        alert("Lütfen not içeriğini doldurun!");
     }
 }
+
 
 // Notları görüntüleme
 function displayNotes() {
     const notesList = document.getElementById("notes-list");
-    notesList.innerHTML = "";
+    notesList.innerHTML = ""; // Eski notları temizle
 
-    if (currentUser && currentUser.notes) {
+    if (currentUser && currentUser.notes && currentUser.notes.length > 0) {
         currentUser.notes.forEach((note) => {
             const listItem = document.createElement("li");
+            listItem.className = note.color; // Renk sınıfını ata
             listItem.innerHTML = `
             <div class="note-header">
                 <span class="note-priority ${note.priority.toLowerCase()}">${note.priority}</span>
@@ -172,8 +188,11 @@ function displayNotes() {
             `;
             notesList.appendChild(listItem);
         });
+    } else {
+        notesList.innerHTML = "<p>Henüz bir not eklenmedi.</p>";
     }
 }
+
 
 // Not düzenleme
 function editNote(noteId) {
