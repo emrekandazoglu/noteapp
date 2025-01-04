@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Note Taking App</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Auth Container -->
+    <div id="auth-container">
+        <div class="auth-box" id="login-box">
+            <div id="login-header">Giriş Yap</div>
+            <form onsubmit="event.preventDefault(); login();">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Şifre" required>
+                <button type="submit">Giriş Yap</button>
+            </form>
+            <div id="login-footer">
+                Hesabın yok mu? <span class="action-link" onclick="toggleAuth()">Kayıt Ol</span>
+            </div>
+        </div>
+
+        <div class="auth-box" id="register-box">
+            <div id="register-header">Kayıt Ol</div>
+            <form onsubmit="event.preventDefault(); register();">
+                <input type="email" id="register-email" placeholder="Email" required>
+                <input type="password" id="register-password" placeholder="Şifre" required>
+                <input type="password" id="register-password-confirm" placeholder="Şifreyi Tekrarla" required>
+                <button type="submit">Kayıt Ol</button>
+            </form>
+            <div id="register-footer">
+                Zaten hesabın var mı? <span class="action-link" onclick="toggleAuth()">Giriş Yap</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div id="container">
+        <div id="list-header">
+            <div id="header-buttons">
+                <div id="addNoteDiv" onclick="popup()">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Not Ekle</span>
+                </div>
+                <button id="show-manual" onclick="openVideo()">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Kullanım Kılavuzu</span>
+                </button>
+                <button id="logout-btn" onclick="logout()">
+                    <i class="fa-solid fa-sign-out-alt"></i>
+                    <span>Çıkış Yap</span>
+                </button>
+            </div>
+            <div id="user-info">
+                <i class="fa-solid fa-user"></i>
+                <span id="user-email"></span>
+            </div>
+        </div>
+        
+        <div id="list-container">
+            <ul id="notes-list"></ul>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+            <span class="close-btn" onclick="closeVideo()">×</span>
+            <h2>Kullanım Kılavuzu</h2>
+            <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/g3lJ_DGWKNk?si=a1LzzcnSM8DNFdDU" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
