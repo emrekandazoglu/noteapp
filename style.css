@@ -435,3 +435,15 @@ body {
         justify-content: center;
     }
 }
+
+#notes-list li.red {
+    background: #ffcccc;
+}
+
+#notes-list li.blue {
+    background: #cce5ff;
+}
+
+#notes-list li.green {
+    background: #d4edda;
+}
